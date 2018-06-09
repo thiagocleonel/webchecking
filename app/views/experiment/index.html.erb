@@ -13,12 +13,12 @@
         <p style="text-decoration: underline; color:#fff;">Selecione as palavras aceitáveis para descrever o que há na fotografia.</p>
 
         <div class="row">
-
           <div class="col">
               <%= image_tag @poi_image.image_path, style: "  width: 100%; max-width: 500px;height: auto;"  %><br>
           </div>
         </div>
         <%= form_tag experiment_post_path do |f|%>
+        <% hidden_field_tag 'answer_id', @answer_id %>
         <% @poi_image.tags.each do |tag| %>
         <label>
           <%= hidden_field_tag "tags[#{@poi_image.id}][#{tag.id}]", 'rejected' %>
@@ -27,9 +27,6 @@
         </label>
         <%end%>
           <div class="row">
-            <div class="col ">
-              <button class="btn btn-primary btn-sm"> < Voltar</button>
-            </div>
               <div class="col ">
                   <button type="submit" class="btn btn-primary btn-sm"> Avançar ></button>
               </div>
