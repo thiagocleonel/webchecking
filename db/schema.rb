@@ -10,12 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_08_002509) do
+ActiveRecord::Schema.define(version: 0) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
   enable_extension "postgis_topology"
+
+  create_table "answers", id: :serial, force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "poi_image_id"
+    t.integer "tag_id"
+    t.string "answer"
+  end
 
   create_table "layer", primary_key: ["topology_id", "layer_id"], force: :cascade do |t|
     t.integer "topology_id", null: false
@@ -35,21 +42,8 @@ ActiveRecord::Schema.define(version: 2018_06_08_002509) do
   create_table "poi_image_upload", id: :serial, force: :cascade do |t|
     t.integer "poi_id"
     t.string "image_path", limit: 150
-    t.string "status", limit: 20
-    t.integer "photo_group"
+    t.integer "count"
     t.index ["poi_id"], name: "fki_poi_id_fk"
-  end
-
-  create_table "prediction", id: :integer, default: -> { "nextval('prediction_result_id_seq'::regclass)" }, force: :cascade do |t|
-    t.integer "poi_image_id"
-    t.datetime "timestamp"
-    t.float "execution_time"
-  end
-
-  create_table "prediction_result", id: :serial, force: :cascade do |t|
-    t.integer "prediction_id"
-    t.string "result"
-    t.string "status"
   end
 
   create_table "spatial_ref_sys", primary_key: "srid", id: :integer, default: nil, force: :cascade do |t|
@@ -57,6 +51,12 @@ ActiveRecord::Schema.define(version: 2018_06_08_002509) do
     t.integer "auth_srid"
     t.string "srtext", limit: 2048
     t.string "proj4text", limit: 2048
+  end
+
+  create_table "tags", id: :serial, force: :cascade do |t|
+    t.integer "poi_image_id"
+    t.string "word"
+    t.integer "position"
   end
 
   create_table "topology", id: :serial, force: :cascade do |t|
@@ -80,8 +80,10 @@ ActiveRecord::Schema.define(version: 2018_06_08_002509) do
     t.integer "photo_group"
   end
 
+  add_foreign_key "answers", "poi_image_upload", column: "poi_image_id", name: "pk_id_answer_poi_image"
+  add_foreign_key "answers", "tags", name: "fk_answer_tag"
+  add_foreign_key "answers", "users", name: "fk_answer_user"
   add_foreign_key "layer", "topology", name: "layer_topology_id_fkey"
   add_foreign_key "poi_image_upload", "poi", name: "poi_id_fk"
-  add_foreign_key "prediction", "poi_image_upload", column: "poi_image_id", name: "poi_image_fk"
-  add_foreign_key "prediction_result", "prediction", name: "prediction_fk"
+  add_foreign_key "tags", "poi_image_upload", column: "poi_image_id", name: "fk_tag_poi_image"
 end
