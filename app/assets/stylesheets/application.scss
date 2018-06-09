@@ -1,0 +1,327 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ */
+@import "bootstrap";
+
+  $body-bg: #c1bdba;
+
+html {
+ overflow-y: scroll;
+}
+
+body {
+  background:$body-bg;
+  height: 100%;
+}
+
+ .font-16{
+   font-size: 16px;
+ }
+
+ .shadowed-box{
+ -webkit-box-shadow: 0px -2px 61px -7px rgba(0,0,0,0.58);
+ -moz-box-shadow: 0px -2px 61px -7px rgba(0,0,0,0.58);
+ box-shadow: 0px -2px 31px -7px rgba(0,0,0,0.58);
+ border-radius: 20px 20px 20px 20px;
+ background-color: transparent;
+ margin: 0px auto;
+ }
+
+
+ .blue-shadowed-box{
+
+ background-color: #ADD8E6;
+ text-align: center;
+ border-style: groove;
+ border-width: 2px;
+
+ }
+
+
+
+img {
+    margin: 0px auto;
+}
+
+
+
+label {
+  white-space: nowrap;
+  font-size: 16px;
+  color: black;
+}
+
+ .thumb{
+   width: 80%;
+  height: auto;
+  border-width: 4px;
+  border-style: dotted;
+  margin-bottom: 15px;
+ }
+
+ body{
+   background: #2A3440;
+    height:100px !important;
+ }
+
+ .container-fluid{
+   padding: 0px !important;
+   width: 100%;
+   height: inherit !important;
+
+   background: #2A3440;
+ }
+
+ /* Experiment page*/
+
+ .row {
+
+}
+
+ .horizontal-bg{
+   padding:0;
+   margin: 0 0 40px 0;
+   background: #4C5662;
+
+ }
+
+ @viewport{
+    zoom: 1.0;
+    width: extend-to-zoom;
+}
+
+@-ms-viewport{
+    width: extend-to-zoom;
+    zoom: 1.0;
+}
+
+
+  .poi-image{
+    max-width: 400px;
+    max-height: 400px;
+    margin-top: 15px;
+    border: 5px dashed;
+    border-color: #fff;
+
+  }
+
+ /* Login Page*/
+.login-page{
+
+ $body-bg: #c1bdba;
+ $form-bg: #13232f;
+ $white: #ffffff;
+
+ $main: #1ab188;
+ $main-light: lighten($main,5%);
+ $main-dark: darken($main,5%);
+
+ $gray-light: #a0b3b0;
+ $gray: #ddd;
+
+ $thin: 300;
+ $normal: 400;
+ $bold: 600;
+ $br: 4px;
+
+ *, *:before, *:after {
+   box-sizing: border-box;
+ }
+
+
+
+ a {
+   text-decoration:none;
+   color:$main;
+   transition:.5s ease;
+   &:hover {
+     color:$main-dark;
+   }
+ }
+
+ .form {
+   background:rgba($form-bg,.9);
+   padding: 40px;
+   max-width:600px;
+   margin:40px auto;
+   border-radius:$br;
+   box-shadow:0 4px 10px 4px rgba($form-bg,.3);
+ }
+
+ .tab-group {
+   list-style:none;
+   padding:0;
+   margin: 0 0 40px 0;
+   &:after {
+     content: "";
+     display: table;
+     clear: both;
+   }
+   li a {
+     display:block;
+     text-decoration:none;
+     padding:15px;
+     background:rgba($gray-light,.25);
+     color:$gray-light;
+     font-size:20px;
+     float:left;
+     width:50%;
+     text-align:center;
+     cursor:pointer;
+     transition:.5s ease;
+     &:hover {
+       background:$main-dark;
+       color:$white;
+     }
+   }
+   .active a {
+     background:$main;
+     color:$white;
+   }
+ }
+
+ .tab-content > div:last-child {
+   display:none;
+ }
+
+
+ h1, h2 {
+   text-align:center;
+   color:$white;
+   font-weight:$thin;
+   margin:0 0 40px;
+ }
+
+ p{
+   text-align:left;
+   color:$white;
+ }
+
+
+
+ .field-wrap label {
+   position:absolute;
+   transform:translateY(6px);
+   left:13px;
+   color:rgba($white,.5);
+   transition:all 0.25s ease;
+   -webkit-backface-visibility: hidden;
+   pointer-events: none;
+   font-size:22px;
+   .req {
+    margin:2px;
+    color:$main;
+   }
+ }
+
+ label{
+   color:rgba($white,.5);
+   transition:all 0.25s ease;
+   -webkit-backface-visibility: hidden;
+   pointer-events: none;
+   font-size:22px;
+ }
+
+
+ input[type="radio"] ~ span{
+   color: $white;
+ }
+
+ .field-wrap label.active {
+   transform:translateY(-20px);
+   left:2px;
+   font-size:14px;
+   .req {
+     opacity:0;
+   }
+ }
+
+
+ .field-wrap label.highlight {
+  color:$white;
+ }
+
+ input:not([type="radio"]), textarea {
+   font-size:22px;
+   display:block;
+   width:100%;
+   height:100%;
+   padding:5px 10px;
+   background:none;
+   background-image:none;
+   border:1px solid $gray-light;
+   color:$white;
+   border-radius:0;
+   transition:border-color .25s ease, box-shadow .25s ease;
+   &:focus {
+    outline:0;
+    border-color:$main;
+   }
+ }
+
+ textarea {
+   border:2px solid $gray-light;
+   resize: vertical;
+ }
+
+ .field-wrap {
+   position:relative;
+   margin-bottom:40px;
+ }
+
+ .top-row {
+   &:after {
+     content: "";
+     display: table;
+     clear: both;
+   }
+
+   > div {
+     float:left;
+     width:48%;
+     margin-right:4%;
+     &:last-child {
+       margin:0;
+     }
+   }
+ }
+
+ .button {
+   border:0;
+   outline:none;
+   border-radius:0;
+   padding:15px 0;
+   font-size:2rem;
+   font-weight:$bold;
+   text-transform:uppercase;
+   letter-spacing:.1em;
+   background:$main;
+   color:$white;
+   transition:all.5s ease;
+   -webkit-appearance: none;
+   &:hover, &:focus {
+     background:$main-dark;
+   }
+ }
+
+ .button-block {
+   display:block;
+   width:100%;
+ }
+
+ .forgot {
+   margin-top:-20px;
+   text-align:right;
+ }
+
+}

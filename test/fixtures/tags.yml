@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  PoiImage: one
+  word: MyString
+  position: 1
+
+two:
+  PoiImage: two
+  word: MyString
+  position: 1

@@ -1,0 +1,33 @@
+<div class="container shadowed-box" style="padding: 20px">
+  <center><h2>Resultados da HybridCNN</h2></center>
+
+  <%= form_tag("/save", method: "put") do %>
+  <div class="row" >
+    <% @results.each do |result| %>
+    <div class="col-sm-6 blue-shadowed-box" style="padding: 5px;">
+      <div class="row" style=" text-align:center">
+        <%= image_tag "/"+result.point_of_interest_image.image_path, class: "thumb"  %>
+      </div>
+      <% result.prediction_results.in_groups_of(2) do |row| %>
+      <div class="row">
+
+        <% row.each do |prediction_result| %>
+        <% if prediction_result %>
+        <div class="col-sm-6">
+          <label >
+            <%= hidden_field_tag "prediction_results[#{result.id}][#{prediction_result.id}]", 'rejected' %>
+            <%= check_box_tag "prediction_results[#{result.id}][#{prediction_result.id}]", "accepted", prediction_result.accepted? %>
+            <%= prediction_result.result %>
+          </label>
+        </div>
+        <% end %>
+        <% end %>
+      </div>
+      <%end%>
+    </div>
+    <%end%>
+  </div>
+  <footer class="footer"><%= submit_tag 'Salvar alterações', style: "float:right" %></fotter>
+    <% end%>
+
+  </div>

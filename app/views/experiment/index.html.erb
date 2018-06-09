@@ -1,0 +1,77 @@
+<!-- <div class="h-100 row align-items-center"  style="margin-top: 20px;">
+<div class="col">
+
+<p style="text-decoration: underline; text-align: center;color:#fff;">Selecione as palavras aceitáveis para descrever o que há na fotografia.</p>
+</div>
+
+
+</div> -->
+
+    <div class="row horizontal-bg" style="width: inherit">
+      <div class="col" style="text-align: center">
+        <h2 style="color: #fff; text-align: center">Experimento MoveAndShot</h2>
+        <p style="text-decoration: underline; color:#fff;">Selecione as palavras aceitáveis para descrever o que há na fotografia.</p>
+
+        <div class="row">
+
+          <div class="col">
+              <%= image_tag @poi_image.image_path, style: "  width: 100%; max-width: 500px;height: auto;"  %><br>
+          </div>
+        </div>
+        <%= form_tag experiment_post_path do |f|%>
+        <% @poi_image.tags.each do |tag| %>
+        <label>
+          <%= hidden_field_tag "tags[#{@poi_image.id}][#{tag.id}]", 'rejected' %>
+          <%= check_box_tag "tags[#{@poi_image.id}][#{tag.id}]", "accepted", tag.accepted? %>
+          <%= tag.word %>
+        </label>
+        <%end%>
+          <div class="row">
+            <div class="col ">
+              <button class="btn btn-primary btn-sm"> < Voltar</button>
+            </div>
+              <div class="col ">
+                  <button type="submit" class="btn btn-primary btn-sm"> Avançar ></button>
+              </div>
+            <%end%>
+          </div>
+      </div>
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="horizontal-bg">
+
+<div class="row">
+
+<div class="col">
+<div class="row" style="text-align: center">
+
+<form>
+<div class="form-group">
+<button class="btn btn-primary" > < Voltar</button>
+
+<button type="submit" class="btn btn-primary">Avançar > </button>
+</div>
+</form>
+</div>
+</div>
+
+</div>
+
+<div class="row" style="margin-top 20px;">
+<div class="span6" style="float:right; margin: 0 auto;">
+
+</div>
+</div>
+</div> -->
+
+<!-- </div> -->
