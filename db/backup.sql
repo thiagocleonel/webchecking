@@ -5,605 +5,9 @@
 -- Dumped from database version 9.5.12
 -- Dumped by pg_dump version 9.5.12
 
--- Started on 2018-06-09 17:46:41 -03
+-- Started on 2018-06-09 19:23:08 -03
 
-SET statement_timeout = 0;
-SET lock_timeout = 0;
-SET client_encoding = 'UTF8';
-SET standard_conforming_strings = on;
-SELECT pg_catalog.set_config('search_path', '', false);
-SET check_function_bodies = false;
-SET client_min_messages = warning;
-SET row_security = off;
-
---
--- TOC entry 9 (class 2615 OID 39848)
--- Name: topology; Type: SCHEMA; Schema: -; Owner: postgres
---
-
-CREATE SCHEMA topology;
-
-
-ALTER SCHEMA topology OWNER TO postgres;
-
---
--- TOC entry 1 (class 3079 OID 12397)
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
---
-
-CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
-
-
---
--- TOC entry 3651 (class 0 OID 0)
--- Dependencies: 1
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
---
-
-COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
-
-
---
--- TOC entry 3 (class 3079 OID 39849)
--- Name: postgis; Type: EXTENSION; Schema: -; Owner: 
---
-
-CREATE EXTENSION IF NOT EXISTS postgis WITH SCHEMA public;
-
-
---
--- TOC entry 3652 (class 0 OID 0)
--- Dependencies: 3
--- Name: EXTENSION postgis; Type: COMMENT; Schema: -; Owner: 
---
-
-COMMENT ON EXTENSION postgis IS 'PostGIS geometry, geography, and raster spatial types and functions';
-
-
---
--- TOC entry 2 (class 3079 OID 41215)
--- Name: postgis_topology; Type: EXTENSION; Schema: -; Owner: 
---
-
-CREATE EXTENSION IF NOT EXISTS postgis_topology WITH SCHEMA topology;
-
-
---
--- TOC entry 3653 (class 0 OID 0)
--- Dependencies: 2
--- Name: EXTENSION postgis_topology; Type: COMMENT; Schema: -; Owner: 
---
-
-COMMENT ON EXTENSION postgis_topology IS 'PostGIS topology spatial types and functions';
-
-
-SET default_tablespace = '';
-
-SET default_with_oids = false;
-
---
--- TOC entry 215 (class 1259 OID 41496)
--- Name: answers; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.answers (
-    id integer NOT NULL,
-    user_id integer,
-    poi_image_id integer,
-    tag_id integer,
-    answer character varying
-);
-
-
-ALTER TABLE public.answers OWNER TO postgres;
-
---
--- TOC entry 216 (class 1259 OID 41499)
--- Name: answers_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.answers_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.answers_id_seq OWNER TO postgres;
-
---
--- TOC entry 3654 (class 0 OID 0)
--- Dependencies: 216
--- Name: answers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.answers_id_seq OWNED BY public.answers.id;
-
-
---
--- TOC entry 205 (class 1259 OID 41354)
--- Name: ar_internal_metadata; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.ar_internal_metadata (
-    key character varying NOT NULL,
-    value character varying,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
-ALTER TABLE public.ar_internal_metadata OWNER TO postgres;
-
---
--- TOC entry 206 (class 1259 OID 41360)
--- Name: poi_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.poi_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.poi_id_seq OWNER TO postgres;
-
---
--- TOC entry 207 (class 1259 OID 41362)
--- Name: poi; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.poi (
-    id integer DEFAULT nextval('public.poi_id_seq'::regclass) NOT NULL,
-    poi_name character varying(100),
-    poi_type character varying(100),
-    latitude double precision,
-    longitude double precision,
-    poi_shot_area_polygon public.geometry,
-    related_names character varying(300),
-    image character varying(255)
-);
-
-
-ALTER TABLE public.poi OWNER TO postgres;
-
---
--- TOC entry 208 (class 1259 OID 41369)
--- Name: poi_image_upload; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.poi_image_upload (
-    id integer NOT NULL,
-    poi_id integer,
-    image_path character varying(150),
-    count integer
-);
-
-
-ALTER TABLE public.poi_image_upload OWNER TO postgres;
-
---
--- TOC entry 209 (class 1259 OID 41372)
--- Name: poi_image_upload_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.poi_image_upload_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.poi_image_upload_id_seq OWNER TO postgres;
-
---
--- TOC entry 3655 (class 0 OID 0)
--- Dependencies: 209
--- Name: poi_image_upload_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.poi_image_upload_id_seq OWNED BY public.poi_image_upload.id;
-
-
---
--- TOC entry 210 (class 1259 OID 41387)
--- Name: schema_migrations; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.schema_migrations (
-    version character varying NOT NULL
-);
-
-
-ALTER TABLE public.schema_migrations OWNER TO postgres;
-
---
--- TOC entry 213 (class 1259 OID 41477)
--- Name: tags; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.tags (
-    id integer NOT NULL,
-    poi_image_id integer,
-    word character varying,
-    "position" integer
-);
-
-
-ALTER TABLE public.tags OWNER TO postgres;
-
---
--- TOC entry 214 (class 1259 OID 41480)
--- Name: tags_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.tags_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.tags_id_seq OWNER TO postgres;
-
---
--- TOC entry 3656 (class 0 OID 0)
--- Dependencies: 214
--- Name: tags_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.tags_id_seq OWNED BY public.tags.id;
-
-
---
--- TOC entry 211 (class 1259 OID 41393)
--- Name: users; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.users (
-    id bigint NOT NULL,
-    name character varying,
-    email character varying,
-    sex character varying,
-    age character varying,
-    scolarity character varying,
-    cariri_know_level character varying,
-    visually_impaired boolean,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    photo_group integer
-);
-
-
-ALTER TABLE public.users OWNER TO postgres;
-
---
--- TOC entry 212 (class 1259 OID 41399)
--- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.users_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.users_id_seq OWNER TO postgres;
-
---
--- TOC entry 3657 (class 0 OID 0)
--- Dependencies: 212
--- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
-
-
---
--- TOC entry 3489 (class 2604 OID 41501)
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.answers ALTER COLUMN id SET DEFAULT nextval('public.answers_id_seq'::regclass);
-
-
---
--- TOC entry 3486 (class 2604 OID 41401)
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.poi_image_upload ALTER COLUMN id SET DEFAULT nextval('public.poi_image_upload_id_seq'::regclass);
-
-
---
--- TOC entry 3488 (class 2604 OID 41482)
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.tags ALTER COLUMN id SET DEFAULT nextval('public.tags_id_seq'::regclass);
-
-
---
--- TOC entry 3487 (class 2604 OID 41404)
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
-
-
---
--- TOC entry 3641 (class 0 OID 41496)
--- Dependencies: 215
--- Data for Name: answers; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.answers (id, user_id, poi_image_id, tag_id, answer) FROM stdin;
-52	1	502	2495	rejected
-53	1	502	2496	accepted
-54	1	502	2497	rejected
-55	1	502	2498	accepted
-56	1	502	2499	rejected
-57	1	503	2500	accepted
-58	1	503	2501	accepted
-59	1	503	2502	accepted
-60	1	503	2503	rejected
-61	1	503	2504	accepted
-62	1	504	2505	accepted
-63	1	504	2506	rejected
-64	1	504	2507	rejected
-65	1	504	2508	rejected
-66	1	504	2509	rejected
-67	1	505	2510	accepted
-68	1	505	2511	accepted
-69	1	505	2512	rejected
-70	1	505	2513	rejected
-71	1	505	2514	rejected
-72	1	506	2515	rejected
-73	1	506	2516	rejected
-74	1	506	2517	rejected
-75	1	506	2518	rejected
-76	1	506	2519	rejected
-77	1	507	2520	rejected
-78	1	507	2521	rejected
-79	1	507	2522	rejected
-80	1	507	2523	rejected
-81	1	507	2524	rejected
-82	1	508	2525	accepted
-83	1	508	2526	accepted
-84	1	508	2527	rejected
-85	1	508	2528	accepted
-86	1	508	2529	accepted
-87	1	509	2530	rejected
-88	1	509	2531	rejected
-89	1	509	2532	rejected
-90	1	509	2533	rejected
-91	1	509	2534	rejected
-92	1	510	2535	accepted
-93	1	510	2536	rejected
-94	1	510	2537	accepted
-95	1	510	2538	rejected
-96	1	510	2539	rejected
-97	1	511	2540	rejected
-98	1	511	2541	rejected
-99	1	511	2542	rejected
-100	1	511	2543	rejected
-101	1	511	2544	rejected
-102	1	513	2550	rejected
-103	1	513	2551	accepted
-104	1	513	2552	rejected
-105	1	513	2553	rejected
-106	1	513	2554	accepted
-107	3	514	2555	rejected
-108	3	514	2556	rejected
-109	3	514	2557	rejected
-110	3	514	2558	rejected
-111	3	514	2559	rejected
-112	3	515	2560	accepted
-113	3	515	2561	rejected
-114	3	515	2562	rejected
-115	3	515	2563	rejected
-116	3	515	2564	rejected
-117	3	516	2565	accepted
-118	3	516	2566	rejected
-119	3	516	2567	rejected
-120	3	516	2568	rejected
-121	3	516	2569	accepted
-122	3	517	2570	rejected
-123	3	517	2571	rejected
-124	3	517	2572	rejected
-125	3	517	2573	rejected
-126	3	517	2574	rejected
-127	3	518	2575	rejected
-128	3	518	2576	rejected
-129	3	518	2577	rejected
-130	3	518	2578	rejected
-131	3	518	2579	rejected
-132	3	519	2580	rejected
-133	3	519	2581	accepted
-134	3	519	2582	rejected
-135	3	519	2583	accepted
-136	3	519	2584	rejected
-137	3	520	2585	rejected
-138	3	520	2586	rejected
-139	3	520	2587	rejected
-140	3	520	2588	rejected
-141	3	520	2589	rejected
-142	3	521	2590	rejected
-143	3	521	2591	rejected
-144	3	521	2592	accepted
-145	3	521	2593	accepted
-146	3	521	2594	rejected
-147	3	522	2595	rejected
-148	3	522	2596	rejected
-149	3	522	2597	rejected
-150	3	522	2598	accepted
-151	3	522	2599	rejected
-152	3	523	2600	rejected
-153	3	523	2601	rejected
-154	3	523	2602	rejected
-155	3	523	2603	rejected
-156	3	523	2604	rejected
-157	3	524	2605	rejected
-158	3	524	2606	rejected
-159	3	524	2607	rejected
-160	3	524	2608	rejected
-161	3	524	2609	rejected
-162	3	526	2614	rejected
-163	3	526	2615	rejected
-164	3	526	2616	rejected
-165	3	526	2617	rejected
-166	3	526	2618	rejected
-167	3	527	2619	rejected
-168	3	527	2620	accepted
-169	3	527	2621	rejected
-170	3	527	2622	rejected
-171	3	527	2623	accepted
-172	3	528	2624	accepted
-173	3	528	2625	rejected
-174	3	528	2626	rejected
-175	3	528	2627	rejected
-176	3	528	2628	rejected
-177	3	530	2634	rejected
-178	3	530	2635	rejected
-179	3	530	2636	rejected
-180	3	530	2637	rejected
-181	3	530	2638	rejected
-182	3	531	2639	rejected
-183	3	531	2640	rejected
-184	3	531	2641	rejected
-185	3	531	2642	rejected
-186	3	531	2643	rejected
-187	3	532	2644	rejected
-188	3	532	2645	rejected
-189	3	532	2646	rejected
-190	3	532	2647	accepted
-191	3	532	2648	rejected
-192	3	533	2649	rejected
-193	3	533	2650	rejected
-194	3	533	2651	rejected
-195	3	533	2652	rejected
-196	3	533	2653	rejected
-197	3	534	2654	accepted
-198	3	534	2655	accepted
-199	3	534	2656	rejected
-200	3	534	2657	rejected
-201	3	534	2658	rejected
-202	3	535	2659	rejected
-203	3	535	2660	rejected
-204	3	535	2661	rejected
-205	3	535	2662	rejected
-206	3	535	2663	rejected
-207	3	536	2664	rejected
-208	3	536	2665	rejected
-209	3	536	2666	accepted
-210	3	536	2667	accepted
-211	3	536	2668	accepted
-212	3	537	2669	rejected
-213	3	537	2670	rejected
-214	3	537	2671	rejected
-215	3	537	2672	rejected
-216	3	537	2673	rejected
-217	3	538	2674	rejected
-218	3	538	2675	accepted
-219	3	538	2676	rejected
-220	3	538	2677	rejected
-221	3	538	2678	rejected
-222	3	539	2679	rejected
-223	3	539	2680	rejected
-224	3	539	2681	rejected
-225	3	539	2682	rejected
-226	3	539	2683	rejected
-227	4	540	2684	rejected
-228	4	540	2686	rejected
-229	4	540	2687	rejected
-230	4	540	2688	rejected
-231	4	540	2685	rejected
-232	4	541	2689	rejected
-233	4	541	2690	rejected
-234	4	541	2691	accepted
-235	4	541	2692	rejected
-236	4	541	2693	rejected
-237	4	542	2694	rejected
-238	4	542	2695	rejected
-239	4	542	2696	rejected
-240	4	542	2697	rejected
-241	4	542	2698	rejected
-242	4	543	2699	rejected
-243	4	543	2700	accepted
-244	4	543	2701	rejected
-245	4	543	2702	accepted
-246	4	543	2703	accepted
-247	4	544	2704	accepted
-248	4	544	2705	rejected
-249	4	544	2706	accepted
-250	4	544	2707	rejected
-251	4	544	2708	rejected
-252	4	545	2709	rejected
-253	4	545	2710	rejected
-254	4	545	2711	rejected
-255	4	545	2712	rejected
-256	4	545	2713	rejected
-257	4	547	2719	rejected
-258	4	547	2720	rejected
-259	4	547	2721	rejected
-260	4	547	2722	rejected
-261	4	547	2723	rejected
-262	4	548	2724	rejected
-263	4	548	2725	rejected
-264	4	548	2726	rejected
-265	4	548	2727	rejected
-266	4	548	2728	rejected
-267	4	549	2729	rejected
-268	4	549	2730	rejected
-269	4	549	2731	rejected
-270	4	549	2732	rejected
-271	4	549	2733	rejected
-272	4	550	2734	rejected
-273	4	550	2735	rejected
-274	4	550	2736	rejected
-275	4	550	2737	rejected
-276	4	550	2738	rejected
-277	4	551	2739	rejected
-278	4	551	2740	rejected
-279	4	551	2741	rejected
-280	4	551	2742	rejected
-281	4	551	2743	rejected
-282	4	551	2739	rejected
-283	4	551	2740	rejected
-284	4	551	2741	accepted
-285	4	551	2742	rejected
-286	4	551	2743	rejected
-\.
-
-
---
--- TOC entry 3658 (class 0 OID 0)
--- Dependencies: 216
--- Name: answers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.answers_id_seq', 286, true);
-
-
---
--- TOC entry 3631 (class 0 OID 41354)
--- Dependencies: 205
--- Data for Name: ar_internal_metadata; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.ar_internal_metadata (key, value, created_at, updated_at) FROM stdin;
-\.
-
-
---
--- TOC entry 3633 (class 0 OID 41362)
+-- TOC entry 3585 (class 0 OID 41362)
 -- Dependencies: 207
 -- Data for Name: poi; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -614,16 +18,7 @@ COPY public.poi (id, poi_name, poi_type, latitude, longitude, poi_shot_area_poly
 
 
 --
--- TOC entry 3659 (class 0 OID 0)
--- Dependencies: 206
--- Name: poi_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.poi_id_seq', 1, true);
-
-
---
--- TOC entry 3634 (class 0 OID 41369)
+-- TOC entry 3586 (class 0 OID 41369)
 -- Dependencies: 208
 -- Data for Name: poi_image_upload; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -1121,36 +516,7 @@ COPY public.poi_image_upload (id, poi_id, image_path, count) FROM stdin;
 
 
 --
--- TOC entry 3660 (class 0 OID 0)
--- Dependencies: 209
--- Name: poi_image_upload_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.poi_image_upload_id_seq', 981, true);
-
-
---
--- TOC entry 3636 (class 0 OID 41387)
--- Dependencies: 210
--- Data for Name: schema_migrations; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.schema_migrations (version) FROM stdin;
-\.
-
-
---
--- TOC entry 3484 (class 0 OID 40139)
--- Dependencies: 185
--- Data for Name: spatial_ref_sys; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.spatial_ref_sys  FROM stdin;
-\.
-
-
---
--- TOC entry 3639 (class 0 OID 41477)
+-- TOC entry 3588 (class 0 OID 41477)
 -- Dependencies: 213
 -- Data for Name: tags; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -3600,7 +2966,270 @@ COPY public.tags (id, poi_image_id, word, "position") FROM stdin;
 
 
 --
--- TOC entry 3661 (class 0 OID 0)
+-- TOC entry 3590 (class 0 OID 41496)
+-- Dependencies: 215
+-- Data for Name: answers; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.answers (id, user_id, poi_image_id, tag_id, answer) FROM stdin;
+52	1	502	2495	rejected
+53	1	502	2496	accepted
+54	1	502	2497	rejected
+55	1	502	2498	accepted
+56	1	502	2499	rejected
+57	1	503	2500	accepted
+58	1	503	2501	accepted
+59	1	503	2502	accepted
+60	1	503	2503	rejected
+61	1	503	2504	accepted
+62	1	504	2505	accepted
+63	1	504	2506	rejected
+64	1	504	2507	rejected
+65	1	504	2508	rejected
+66	1	504	2509	rejected
+67	1	505	2510	accepted
+68	1	505	2511	accepted
+69	1	505	2512	rejected
+70	1	505	2513	rejected
+71	1	505	2514	rejected
+72	1	506	2515	rejected
+73	1	506	2516	rejected
+74	1	506	2517	rejected
+75	1	506	2518	rejected
+76	1	506	2519	rejected
+77	1	507	2520	rejected
+78	1	507	2521	rejected
+79	1	507	2522	rejected
+80	1	507	2523	rejected
+81	1	507	2524	rejected
+82	1	508	2525	accepted
+83	1	508	2526	accepted
+84	1	508	2527	rejected
+85	1	508	2528	accepted
+86	1	508	2529	accepted
+87	1	509	2530	rejected
+88	1	509	2531	rejected
+89	1	509	2532	rejected
+90	1	509	2533	rejected
+91	1	509	2534	rejected
+92	1	510	2535	accepted
+93	1	510	2536	rejected
+94	1	510	2537	accepted
+95	1	510	2538	rejected
+96	1	510	2539	rejected
+97	1	511	2540	rejected
+98	1	511	2541	rejected
+99	1	511	2542	rejected
+100	1	511	2543	rejected
+101	1	511	2544	rejected
+102	1	513	2550	rejected
+103	1	513	2551	accepted
+104	1	513	2552	rejected
+105	1	513	2553	rejected
+106	1	513	2554	accepted
+107	3	514	2555	rejected
+108	3	514	2556	rejected
+109	3	514	2557	rejected
+110	3	514	2558	rejected
+111	3	514	2559	rejected
+112	3	515	2560	accepted
+113	3	515	2561	rejected
+114	3	515	2562	rejected
+115	3	515	2563	rejected
+116	3	515	2564	rejected
+117	3	516	2565	accepted
+118	3	516	2566	rejected
+119	3	516	2567	rejected
+120	3	516	2568	rejected
+121	3	516	2569	accepted
+122	3	517	2570	rejected
+123	3	517	2571	rejected
+124	3	517	2572	rejected
+125	3	517	2573	rejected
+126	3	517	2574	rejected
+127	3	518	2575	rejected
+128	3	518	2576	rejected
+129	3	518	2577	rejected
+130	3	518	2578	rejected
+131	3	518	2579	rejected
+132	3	519	2580	rejected
+133	3	519	2581	accepted
+134	3	519	2582	rejected
+135	3	519	2583	accepted
+136	3	519	2584	rejected
+137	3	520	2585	rejected
+138	3	520	2586	rejected
+139	3	520	2587	rejected
+140	3	520	2588	rejected
+141	3	520	2589	rejected
+142	3	521	2590	rejected
+143	3	521	2591	rejected
+144	3	521	2592	accepted
+145	3	521	2593	accepted
+146	3	521	2594	rejected
+147	3	522	2595	rejected
+148	3	522	2596	rejected
+149	3	522	2597	rejected
+150	3	522	2598	accepted
+151	3	522	2599	rejected
+152	3	523	2600	rejected
+153	3	523	2601	rejected
+154	3	523	2602	rejected
+155	3	523	2603	rejected
+156	3	523	2604	rejected
+157	3	524	2605	rejected
+158	3	524	2606	rejected
+159	3	524	2607	rejected
+160	3	524	2608	rejected
+161	3	524	2609	rejected
+162	3	526	2614	rejected
+163	3	526	2615	rejected
+164	3	526	2616	rejected
+165	3	526	2617	rejected
+166	3	526	2618	rejected
+167	3	527	2619	rejected
+168	3	527	2620	accepted
+169	3	527	2621	rejected
+170	3	527	2622	rejected
+171	3	527	2623	accepted
+172	3	528	2624	accepted
+173	3	528	2625	rejected
+174	3	528	2626	rejected
+175	3	528	2627	rejected
+176	3	528	2628	rejected
+177	3	530	2634	rejected
+178	3	530	2635	rejected
+179	3	530	2636	rejected
+180	3	530	2637	rejected
+181	3	530	2638	rejected
+182	3	531	2639	rejected
+183	3	531	2640	rejected
+184	3	531	2641	rejected
+185	3	531	2642	rejected
+186	3	531	2643	rejected
+187	3	532	2644	rejected
+188	3	532	2645	rejected
+189	3	532	2646	rejected
+190	3	532	2647	accepted
+191	3	532	2648	rejected
+192	3	533	2649	rejected
+193	3	533	2650	rejected
+194	3	533	2651	rejected
+195	3	533	2652	rejected
+196	3	533	2653	rejected
+197	3	534	2654	accepted
+198	3	534	2655	accepted
+199	3	534	2656	rejected
+200	3	534	2657	rejected
+201	3	534	2658	rejected
+202	3	535	2659	rejected
+203	3	535	2660	rejected
+204	3	535	2661	rejected
+205	3	535	2662	rejected
+206	3	535	2663	rejected
+207	3	536	2664	rejected
+208	3	536	2665	rejected
+209	3	536	2666	accepted
+210	3	536	2667	accepted
+211	3	536	2668	accepted
+212	3	537	2669	rejected
+213	3	537	2670	rejected
+214	3	537	2671	rejected
+215	3	537	2672	rejected
+216	3	537	2673	rejected
+217	3	538	2674	rejected
+218	3	538	2675	accepted
+219	3	538	2676	rejected
+220	3	538	2677	rejected
+221	3	538	2678	rejected
+222	3	539	2679	rejected
+223	3	539	2680	rejected
+224	3	539	2681	rejected
+225	3	539	2682	rejected
+226	3	539	2683	rejected
+227	4	540	2684	rejected
+228	4	540	2686	rejected
+229	4	540	2687	rejected
+230	4	540	2688	rejected
+231	4	540	2685	rejected
+232	4	541	2689	rejected
+233	4	541	2690	rejected
+234	4	541	2691	accepted
+235	4	541	2692	rejected
+236	4	541	2693	rejected
+237	4	542	2694	rejected
+238	4	542	2695	rejected
+239	4	542	2696	rejected
+240	4	542	2697	rejected
+241	4	542	2698	rejected
+242	4	543	2699	rejected
+243	4	543	2700	accepted
+244	4	543	2701	rejected
+245	4	543	2702	accepted
+246	4	543	2703	accepted
+247	4	544	2704	accepted
+248	4	544	2705	rejected
+249	4	544	2706	accepted
+250	4	544	2707	rejected
+251	4	544	2708	rejected
+252	4	545	2709	rejected
+253	4	545	2710	rejected
+254	4	545	2711	rejected
+255	4	545	2712	rejected
+256	4	545	2713	rejected
+257	4	547	2719	rejected
+258	4	547	2720	rejected
+259	4	547	2721	rejected
+260	4	547	2722	rejected
+261	4	547	2723	rejected
+262	4	548	2724	rejected
+263	4	548	2725	rejected
+264	4	548	2726	rejected
+265	4	548	2727	rejected
+266	4	548	2728	rejected
+267	4	549	2729	rejected
+268	4	549	2730	rejected
+269	4	549	2731	rejected
+270	4	549	2732	rejected
+271	4	549	2733	rejected
+272	4	550	2734	rejected
+273	4	550	2735	rejected
+274	4	550	2736	rejected
+275	4	550	2737	rejected
+276	4	550	2738	rejected
+277	4	551	2739	rejected
+278	4	551	2740	rejected
+279	4	551	2741	rejected
+280	4	551	2742	rejected
+281	4	551	2743	rejected
+282	4	551	2739	rejected
+283	4	551	2740	rejected
+284	4	551	2741	accepted
+285	4	551	2742	rejected
+286	4	551	2743	rejected
+\.
+
+
+--
+-- TOC entry 3597 (class 0 OID 0)
+-- Dependencies: 216
+-- Name: answers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.answers_id_seq', 286, true);
+
+
+--
+-- TOC entry 3598 (class 0 OID 0)
+-- Dependencies: 209
+-- Name: poi_image_upload_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.poi_image_upload_id_seq', 981, true);
+
+
+--
+-- TOC entry 3599 (class 0 OID 0)
 -- Dependencies: 214
 -- Name: tags_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -3608,178 +3237,7 @@ COPY public.tags (id, poi_image_id, word, "position") FROM stdin;
 SELECT pg_catalog.setval('public.tags_id_seq', 4892, true);
 
 
---
--- TOC entry 3637 (class 0 OID 41393)
--- Dependencies: 211
--- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.users (id, name, email, sex, age, scolarity, cariri_know_level, visually_impaired, created_at, updated_at, photo_group) FROM stdin;
-1	Thiago	thiagocleonel@gmail.com	masculino	21	Fundamental	Não conheço	f	2018-06-09 06:03:01.212464	2018-06-09 06:03:01.212464	\N
-2	Leonel	Leonel@Leonel.com	masculino	83	Fundamental	Não conheço	f	2018-06-09 06:33:12.816396	2018-06-09 06:33:12.816396	\N
-3	Thiago 	mikethiago@yahoo.com	masculino	32	Graduação	Muito bem	f	2018-06-09 19:24:21.3932	2018-06-09 19:24:21.3932	\N
-4	Thiago Campos	res@res.com	masculino	21	Fundamental	Razoável	f	2018-06-09 19:39:51.168796	2018-06-09 19:39:51.168796	\N
-\.
-
-
---
--- TOC entry 3662 (class 0 OID 0)
--- Dependencies: 212
--- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.users_id_seq', 4, true);
-
-
---
--- TOC entry 3482 (class 0 OID 41218)
--- Dependencies: 200
--- Data for Name: topology; Type: TABLE DATA; Schema: topology; Owner: postgres
---
-
-COPY topology.topology  FROM stdin;
-\.
-
-
---
--- TOC entry 3483 (class 0 OID 41231)
--- Dependencies: 201
--- Data for Name: layer; Type: TABLE DATA; Schema: topology; Owner: postgres
---
-
-COPY topology.layer  FROM stdin;
-\.
-
-
---
--- TOC entry 3491 (class 2606 OID 41406)
--- Name: ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.ar_internal_metadata
-    ADD CONSTRAINT ar_internal_metadata_pkey PRIMARY KEY (key);
-
-
---
--- TOC entry 3504 (class 2606 OID 41509)
--- Name: pk_id_answer; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.answers
-    ADD CONSTRAINT pk_id_answer PRIMARY KEY (id);
-
-
---
--- TOC entry 3502 (class 2606 OID 41490)
--- Name: pk_id_tag; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.tags
-    ADD CONSTRAINT pk_id_tag PRIMARY KEY (id);
-
-
---
--- TOC entry 3496 (class 2606 OID 41408)
--- Name: poi_images_upload; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.poi_image_upload
-    ADD CONSTRAINT poi_images_upload PRIMARY KEY (id);
-
-
---
--- TOC entry 3493 (class 2606 OID 41410)
--- Name: poi_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.poi
-    ADD CONSTRAINT poi_pkey PRIMARY KEY (id);
-
-
---
--- TOC entry 3498 (class 2606 OID 41416)
--- Name: schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.schema_migrations
-    ADD CONSTRAINT schema_migrations_pkey PRIMARY KEY (version);
-
-
---
--- TOC entry 3500 (class 2606 OID 41418)
--- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.users
-    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
-
-
---
--- TOC entry 3494 (class 1259 OID 41419)
--- Name: fki_poi_id_fk; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX fki_poi_id_fk ON public.poi_image_upload USING btree (poi_id);
-
-
---
--- TOC entry 3508 (class 2606 OID 41515)
--- Name: fk_answer_tag; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.answers
-    ADD CONSTRAINT fk_answer_tag FOREIGN KEY (tag_id) REFERENCES public.tags(id);
-
-
---
--- TOC entry 3509 (class 2606 OID 41520)
--- Name: fk_answer_user; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.answers
-    ADD CONSTRAINT fk_answer_user FOREIGN KEY (user_id) REFERENCES public.users(id);
-
-
---
--- TOC entry 3506 (class 2606 OID 41491)
--- Name: fk_tag_poi_image; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.tags
-    ADD CONSTRAINT fk_tag_poi_image FOREIGN KEY (poi_image_id) REFERENCES public.poi_image_upload(id);
-
-
---
--- TOC entry 3507 (class 2606 OID 41510)
--- Name: pk_id_answer_poi_image; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.answers
-    ADD CONSTRAINT pk_id_answer_poi_image FOREIGN KEY (poi_image_id) REFERENCES public.poi_image_upload(id);
-
-
---
--- TOC entry 3505 (class 2606 OID 41420)
--- Name: poi_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.poi_image_upload
-    ADD CONSTRAINT poi_id_fk FOREIGN KEY (poi_id) REFERENCES public.poi(id);
-
-
---
--- TOC entry 3650 (class 0 OID 0)
--- Dependencies: 10
--- Name: SCHEMA public; Type: ACL; Schema: -; Owner: postgres
---
-
-REVOKE ALL ON SCHEMA public FROM PUBLIC;
-REVOKE ALL ON SCHEMA public FROM postgres;
-GRANT ALL ON SCHEMA public TO postgres;
-GRANT ALL ON SCHEMA public TO PUBLIC;
-
-
--- Completed on 2018-06-09 17:46:42 -03
+-- Completed on 2018-06-09 19:23:08 -03
 
 --
 -- PostgreSQL database dump complete
