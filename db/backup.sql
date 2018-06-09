@@ -1,3 +1,5 @@
+BEGIN;
+
 --
 -- PostgreSQL database dump
 --
@@ -5,81 +7,9 @@
 -- Dumped from database version 9.5.12
 -- Dumped by pg_dump version 9.5.12
 
--- Started on 2018-06-09 17:46:41 -03
-
-SET statement_timeout = 0;
-SET lock_timeout = 0;
-SET client_encoding = 'UTF8';
-SET standard_conforming_strings = on;
-SELECT pg_catalog.set_config('search_path', '', false);
-SET check_function_bodies = false;
-SET client_min_messages = warning;
-SET row_security = off;
-
---
--- TOC entry 9 (class 2615 OID 39848)
--- Name: topology; Type: SCHEMA; Schema: -; Owner: postgres
---
-
-CREATE SCHEMA topology;
+-- Started on 2018-06-09 19:02:56 -03
 
 
-ALTER SCHEMA topology OWNER TO postgres;
-
---
--- TOC entry 1 (class 3079 OID 12397)
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
---
-
-CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
-
-
---
--- TOC entry 3651 (class 0 OID 0)
--- Dependencies: 1
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
---
-
-COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
-
-
---
--- TOC entry 3 (class 3079 OID 39849)
--- Name: postgis; Type: EXTENSION; Schema: -; Owner: 
---
-
-CREATE EXTENSION IF NOT EXISTS postgis WITH SCHEMA public;
-
-
---
--- TOC entry 3652 (class 0 OID 0)
--- Dependencies: 3
--- Name: EXTENSION postgis; Type: COMMENT; Schema: -; Owner: 
---
-
-COMMENT ON EXTENSION postgis IS 'PostGIS geometry, geography, and raster spatial types and functions';
-
-
---
--- TOC entry 2 (class 3079 OID 41215)
--- Name: postgis_topology; Type: EXTENSION; Schema: -; Owner: 
---
-
-CREATE EXTENSION IF NOT EXISTS postgis_topology WITH SCHEMA topology;
-
-
---
--- TOC entry 3653 (class 0 OID 0)
--- Dependencies: 2
--- Name: EXTENSION postgis_topology; Type: COMMENT; Schema: -; Owner: 
---
-
-COMMENT ON EXTENSION postgis_topology IS 'PostGIS topology spatial types and functions';
-
-
-SET default_tablespace = '';
-
-SET default_with_oids = false;
 
 --
 -- TOC entry 215 (class 1259 OID 41496)
@@ -113,7 +43,7 @@ CREATE SEQUENCE public.answers_id_seq
 ALTER TABLE public.answers_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3654 (class 0 OID 0)
+-- TOC entry 3643 (class 0 OID 0)
 -- Dependencies: 216
 -- Name: answers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -201,7 +131,7 @@ CREATE SEQUENCE public.poi_image_upload_id_seq
 ALTER TABLE public.poi_image_upload_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3655 (class 0 OID 0)
+-- TOC entry 3644 (class 0 OID 0)
 -- Dependencies: 209
 -- Name: poi_image_upload_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -252,7 +182,7 @@ CREATE SEQUENCE public.tags_id_seq
 ALTER TABLE public.tags_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3656 (class 0 OID 0)
+-- TOC entry 3645 (class 0 OID 0)
 -- Dependencies: 214
 -- Name: tags_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -298,7 +228,7 @@ CREATE SEQUENCE public.users_id_seq
 ALTER TABLE public.users_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3657 (class 0 OID 0)
+-- TOC entry 3646 (class 0 OID 0)
 -- Dependencies: 212
 -- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -307,7 +237,7 @@ ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 
 
 --
--- TOC entry 3489 (class 2604 OID 41501)
+-- TOC entry 3482 (class 2604 OID 41501)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -315,7 +245,7 @@ ALTER TABLE ONLY public.answers ALTER COLUMN id SET DEFAULT nextval('public.answ
 
 
 --
--- TOC entry 3486 (class 2604 OID 41401)
+-- TOC entry 3479 (class 2604 OID 41401)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -323,7 +253,7 @@ ALTER TABLE ONLY public.poi_image_upload ALTER COLUMN id SET DEFAULT nextval('pu
 
 
 --
--- TOC entry 3488 (class 2604 OID 41482)
+-- TOC entry 3481 (class 2604 OID 41482)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -331,7 +261,7 @@ ALTER TABLE ONLY public.tags ALTER COLUMN id SET DEFAULT nextval('public.tags_id
 
 
 --
--- TOC entry 3487 (class 2604 OID 41404)
+-- TOC entry 3480 (class 2604 OID 41404)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -339,7 +269,7 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 
 
 --
--- TOC entry 3641 (class 0 OID 41496)
+-- TOC entry 3634 (class 0 OID 41496)
 -- Dependencies: 215
 -- Data for Name: answers; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -584,16 +514,16 @@ COPY public.answers (id, user_id, poi_image_id, tag_id, answer) FROM stdin;
 
 
 --
--- TOC entry 3658 (class 0 OID 0)
+-- TOC entry 3647 (class 0 OID 0)
 -- Dependencies: 216
 -- Name: answers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.answers_id_seq', 286, true);
+
 
 
 --
--- TOC entry 3631 (class 0 OID 41354)
+-- TOC entry 3624 (class 0 OID 41354)
 -- Dependencies: 205
 -- Data for Name: ar_internal_metadata; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -603,7 +533,7 @@ COPY public.ar_internal_metadata (key, value, created_at, updated_at) FROM stdin
 
 
 --
--- TOC entry 3633 (class 0 OID 41362)
+-- TOC entry 3626 (class 0 OID 41362)
 -- Dependencies: 207
 -- Data for Name: poi; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -614,16 +544,15 @@ COPY public.poi (id, poi_name, poi_type, latitude, longitude, poi_shot_area_poly
 
 
 --
--- TOC entry 3659 (class 0 OID 0)
+-- TOC entry 3648 (class 0 OID 0)
 -- Dependencies: 206
 -- Name: poi_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.poi_id_seq', 1, true);
 
 
 --
--- TOC entry 3634 (class 0 OID 41369)
+-- TOC entry 3627 (class 0 OID 41369)
 -- Dependencies: 208
 -- Data for Name: poi_image_upload; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -1121,16 +1050,16 @@ COPY public.poi_image_upload (id, poi_id, image_path, count) FROM stdin;
 
 
 --
--- TOC entry 3660 (class 0 OID 0)
+-- TOC entry 3649 (class 0 OID 0)
 -- Dependencies: 209
 -- Name: poi_image_upload_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.poi_image_upload_id_seq', 981, true);
+
 
 
 --
--- TOC entry 3636 (class 0 OID 41387)
+-- TOC entry 3629 (class 0 OID 41387)
 -- Dependencies: 210
 -- Data for Name: schema_migrations; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -1140,7 +1069,7 @@ COPY public.schema_migrations (version) FROM stdin;
 
 
 --
--- TOC entry 3484 (class 0 OID 40139)
+-- TOC entry 3477 (class 0 OID 40139)
 -- Dependencies: 185
 -- Data for Name: spatial_ref_sys; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -1150,7 +1079,7 @@ COPY public.spatial_ref_sys  FROM stdin;
 
 
 --
--- TOC entry 3639 (class 0 OID 41477)
+-- TOC entry 3632 (class 0 OID 41477)
 -- Dependencies: 213
 -- Data for Name: tags; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -3600,16 +3529,16 @@ COPY public.tags (id, poi_image_id, word, "position") FROM stdin;
 
 
 --
--- TOC entry 3661 (class 0 OID 0)
+-- TOC entry 3650 (class 0 OID 0)
 -- Dependencies: 214
 -- Name: tags_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.tags_id_seq', 4892, true);
+
 
 
 --
--- TOC entry 3637 (class 0 OID 41393)
+-- TOC entry 3630 (class 0 OID 41393)
 -- Dependencies: 211
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -3623,36 +3552,16 @@ COPY public.users (id, name, email, sex, age, scolarity, cariri_know_level, visu
 
 
 --
--- TOC entry 3662 (class 0 OID 0)
+-- TOC entry 3651 (class 0 OID 0)
 -- Dependencies: 212
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.users_id_seq', 4, true);
 
-
---
--- TOC entry 3482 (class 0 OID 41218)
--- Dependencies: 200
--- Data for Name: topology; Type: TABLE DATA; Schema: topology; Owner: postgres
---
-
-COPY topology.topology  FROM stdin;
-\.
 
 
 --
--- TOC entry 3483 (class 0 OID 41231)
--- Dependencies: 201
--- Data for Name: layer; Type: TABLE DATA; Schema: topology; Owner: postgres
---
-
-COPY topology.layer  FROM stdin;
-\.
-
-
---
--- TOC entry 3491 (class 2606 OID 41406)
+-- TOC entry 3484 (class 2606 OID 41406)
 -- Name: ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3661,7 +3570,7 @@ ALTER TABLE ONLY public.ar_internal_metadata
 
 
 --
--- TOC entry 3504 (class 2606 OID 41509)
+-- TOC entry 3497 (class 2606 OID 41509)
 -- Name: pk_id_answer; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3670,7 +3579,7 @@ ALTER TABLE ONLY public.answers
 
 
 --
--- TOC entry 3502 (class 2606 OID 41490)
+-- TOC entry 3495 (class 2606 OID 41490)
 -- Name: pk_id_tag; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3679,7 +3588,7 @@ ALTER TABLE ONLY public.tags
 
 
 --
--- TOC entry 3496 (class 2606 OID 41408)
+-- TOC entry 3489 (class 2606 OID 41408)
 -- Name: poi_images_upload; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3688,7 +3597,7 @@ ALTER TABLE ONLY public.poi_image_upload
 
 
 --
--- TOC entry 3493 (class 2606 OID 41410)
+-- TOC entry 3486 (class 2606 OID 41410)
 -- Name: poi_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3697,7 +3606,7 @@ ALTER TABLE ONLY public.poi
 
 
 --
--- TOC entry 3498 (class 2606 OID 41416)
+-- TOC entry 3491 (class 2606 OID 41416)
 -- Name: schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3706,7 +3615,7 @@ ALTER TABLE ONLY public.schema_migrations
 
 
 --
--- TOC entry 3500 (class 2606 OID 41418)
+-- TOC entry 3493 (class 2606 OID 41418)
 -- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3715,7 +3624,7 @@ ALTER TABLE ONLY public.users
 
 
 --
--- TOC entry 3494 (class 1259 OID 41419)
+-- TOC entry 3487 (class 1259 OID 41419)
 -- Name: fki_poi_id_fk; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -3723,7 +3632,7 @@ CREATE INDEX fki_poi_id_fk ON public.poi_image_upload USING btree (poi_id);
 
 
 --
--- TOC entry 3508 (class 2606 OID 41515)
+-- TOC entry 3501 (class 2606 OID 41515)
 -- Name: fk_answer_tag; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3732,7 +3641,7 @@ ALTER TABLE ONLY public.answers
 
 
 --
--- TOC entry 3509 (class 2606 OID 41520)
+-- TOC entry 3502 (class 2606 OID 41520)
 -- Name: fk_answer_user; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3741,7 +3650,7 @@ ALTER TABLE ONLY public.answers
 
 
 --
--- TOC entry 3506 (class 2606 OID 41491)
+-- TOC entry 3499 (class 2606 OID 41491)
 -- Name: fk_tag_poi_image; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3750,7 +3659,7 @@ ALTER TABLE ONLY public.tags
 
 
 --
--- TOC entry 3507 (class 2606 OID 41510)
+-- TOC entry 3500 (class 2606 OID 41510)
 -- Name: pk_id_answer_poi_image; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3759,7 +3668,7 @@ ALTER TABLE ONLY public.answers
 
 
 --
--- TOC entry 3505 (class 2606 OID 41420)
+-- TOC entry 3498 (class 2606 OID 41420)
 -- Name: poi_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3768,7 +3677,7 @@ ALTER TABLE ONLY public.poi_image_upload
 
 
 --
--- TOC entry 3650 (class 0 OID 0)
+-- TOC entry 3642 (class 0 OID 0)
 -- Dependencies: 10
 -- Name: SCHEMA public; Type: ACL; Schema: -; Owner: postgres
 --
@@ -3779,9 +3688,10 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2018-06-09 17:46:42 -03
+-- Completed on 2018-06-09 19:02:57 -03
 
 --
 -- PostgreSQL database dump complete
 --
+END;
 
