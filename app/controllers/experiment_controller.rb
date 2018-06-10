@@ -21,12 +21,14 @@ class ExperimentController < ApplicationController
       params["tags"].each do |point_of_interest_image_id,changes|
         changes.each do |id,new_status|
           a = Answer.new
+          Answer.last ? a.id = Answer.last.id+1 : a.id = 1
           a.user = User.where(email: cookies.signed[:email]).first
           a.point_of_interest_image = PointOfInterestImage.where(id: point_of_interest_image_id).first
           a.tag = Tag.where(id: id).first
           a.answer = new_status
-          a.point_of_interest_image.increase.save if a.save
+	  a.save
         end
+          PointOfInterestImage.find(point_of_interest_image_id.to_i).increase.save
       end
     end
     redirect_to "#{experiment_index_path}"
