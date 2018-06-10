@@ -10,7 +10,8 @@ class LoginController < ApplicationController
   end
 
   def create
-    u = User.new(name: params['name'], age: params['age'], sex: params['sex'], email: params['email'], scolarity: params['scolarity'],
+    id = User.last ? User.last.id+1 : 1
+    u = User.new(id: id, name: params['name'], age: params['age'], sex: params['sex'], email: params['email'], scolarity: params['scolarity'],
       visually_impaired: params['visually_impaired'], cariri_know_level: params['cariri_know_level'])
 
     if(!u.save)

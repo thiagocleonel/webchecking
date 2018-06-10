@@ -10,7 +10,7 @@ class ExperimentController < ApplicationController
     end
   end
 
-
+('5' + Time.now.hash.abs.to_s).split('').first(6).join('')
 
   def post
     if(params["answer_id"])
@@ -21,8 +21,10 @@ class ExperimentController < ApplicationController
       params["tags"].each do |point_of_interest_image_id,changes|
         changes.each do |id,new_status|
           a = Answer.new
-          Answer.last ? a.id = Answer.last.id+1 : a.id = 1
-          a.user = User.where(email: cookies.signed[:email]).first
+          user = User.where(email: cookies.signed[:email]).first
+          generated_id = (user.id.to_s + Time.now.hash.abs.to_s).split('').first(8).join('').to_i
+          Answer.last ? a.id = generated_id : a.id = 1
+          a.user = user
           a.point_of_interest_image = PointOfInterestImage.where(id: point_of_interest_image_id).first
           a.tag = Tag.where(id: id).first
           a.answer = new_status

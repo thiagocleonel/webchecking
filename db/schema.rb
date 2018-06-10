@@ -67,7 +67,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.index ["name"], name: "topology_name_key", unique: true
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", id: :serial, force: :cascade do |t|
     t.string "name"
     t.string "email"
     t.string "sex"
